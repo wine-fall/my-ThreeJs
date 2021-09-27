@@ -1,6 +1,7 @@
 import {lazy} from 'react';
+import {RouteProps} from 'react-router';
 
-export interface CustomizeRouteProps {
+export interface CustomizeRouteProps extends RouteProps {
     key: string;
     path?: string;
     exact?: boolean;

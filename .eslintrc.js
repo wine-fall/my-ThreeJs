@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
     root: true,
     parserOptions: {
@@ -36,6 +37,7 @@ module.exports = {
         'space-before-function-paren': ['error', {'anonymous': 'always', 'named': 'never'}],
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'off',
-        'react/prop-types': 0
+        'react/prop-types': 0,
+        "@typescript-eslint/explicit-module-boundary-types": "off"
     }
 };
