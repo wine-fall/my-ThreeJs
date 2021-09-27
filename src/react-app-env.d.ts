@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
@@ -69,3 +71,6 @@ declare module '*.module.sass' {
   const classes: { readonly [key: string]: string };
   export default classes;
 }
+
+declare module 'react-router';
+declare module 'three';
