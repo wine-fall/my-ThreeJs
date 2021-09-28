@@ -5,7 +5,7 @@ export interface CustomizeRouteProps extends RouteProps {
     key: string;
     path?: string;
     exact?: boolean;
-    component?: any;
+    component?: React.FC;
 }
 
 export const routerConfig: CustomizeRouteProps[] = [
