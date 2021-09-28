@@ -12,6 +12,11 @@ export const routerConfig: CustomizeRouteProps[] = [
     {
         key: 'three',
         path: '/three',
-        component: lazy(() => import(/* webpackChunkName: 'Three' */ '../views/Three'))
+        component: lazy(() => import('../views/Three'))
+    },
+    {
+        key: 'carExhibition',
+        path: '/carExhibition',
+        component: lazy(() => import('../views/RotateSphere'))
     }
 ];
