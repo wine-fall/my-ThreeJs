@@ -18,5 +18,20 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'carExhibition',
         path: '/carExhibition',
         component: lazy(() => import('../views/RotateSphere'))
+    },
+    {
+        key: 'drawRectangle',
+        path: '/webgl/drawRectangle',
+        component: lazy(() => import('../views/WegGl/RrawRectangle'))
+    },
+    {
+        key: 'hellowCavans',
+        path: '/webgl/hellowCavans',
+        component: lazy(() => import('../views/WegGl/HellowCavans'))
+    },
+    {
+        key: 'hellowPoint1',
+        path: '/webgl/hellowPoint1',
+        component: lazy(() => import('../views/WegGl/HellowPoint1'))
     }
 ];
