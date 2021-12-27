@@ -12,6 +12,7 @@ import WebGLUtils from './webgl-utils';
 import WebGLDebugUtils from './webgl-debug';
 
 export function initShaders(gl, vshader, fshader) {
+
     const program = createProgram(gl, vshader, fshader);
     if (!program) {
         console.log('Failed to create program');
@@ -20,7 +21,7 @@ export function initShaders(gl, vshader, fshader) {
   
     gl.useProgram(program);
     gl.program = program;
-  
+
     return true;
 }
   
