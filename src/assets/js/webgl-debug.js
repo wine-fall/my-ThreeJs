@@ -186,7 +186,7 @@ const WebGLDebugUtils = function () {
      *        error. If not specified the default function calls
      *        console.log with a message.
      */
-    function makeDebugContext(ctx, opt_onErrorFunc) {
+    function makeDebugContext(ctx, opt_onErrorFunc = null) {
         init(ctx);
         opt_onErrorFunc = opt_onErrorFunc || function (err, functionName, args) {
             // apparently we can't do args.join(",");
@@ -201,7 +201,7 @@ const WebGLDebugUtils = function () {
     
         // Holds booleans for each GL error so after we get the error ourselves
         // we can still return it to the client app.
-        var glErrorShadow = { };
+        var glErrorShadow = {};
     
         // Makes a function that calls a WebGL function and then calls getError.
         function makeErrorWrapper(ctx, functionName) {

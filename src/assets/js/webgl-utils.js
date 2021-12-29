@@ -110,7 +110,7 @@ const WebGLUtils = function () {
      *     creation attributes you want to pass in.
      * @return {WebGLRenderingContext} The created context.
      */
-    const setupWebGL = function (canvas, opt_attribs) {
+    const setupWebGL = function (canvas, opt_attribs = {}) {
         function showLink(str) {
             const container = canvas.parentNode;
             if (container) {

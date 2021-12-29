@@ -11,18 +11,17 @@
 import WebGLUtils from './webgl-utils';
 import WebGLDebugUtils from './webgl-debug';
 
-export function initShaders(gl, vshader, fshader) {
+export function initShaders(gl: WebGLRenderingContext, vshader: string, fshader: string) {
 
     const program = createProgram(gl, vshader, fshader);
     if (!program) {
         console.log('Failed to create program');
-        return false;
+        return {isinit: false};
     }
   
     gl.useProgram(program);
-    gl.program = program;
 
-    return true;
+    return {program, isinit: true};
 }
   
 /**
@@ -32,7 +31,7 @@ export function initShaders(gl, vshader, fshader) {
    * @param fshader a fragment shader program (string)
    * @return created program object, or null if the creation has failed
    */
- export function createProgram(gl, vshader, fshader) {
+ export function createProgram(gl: WebGLRenderingContext, vshader: string, fshader: string) {
     // Create shader object
     var vertexShader = loadShader(gl, gl.VERTEX_SHADER, vshader);
     var fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fshader);
@@ -73,7 +72,7 @@ export function initShaders(gl, vshader, fshader) {
    * @param source shader program (string)
    * @return created shader object, or null if the creation has failed.
    */
- export function loadShader(gl, type, source) {
+ export function loadShader(gl: WebGLRenderingContext, type: number, source: string) {
     // Create shader object
     var shader = gl.createShader(type);
     if (shader == null) {
@@ -105,15 +104,22 @@ export function initShaders(gl, vshader, fshader) {
    * @param opt_debug flag to initialize the context for debugging
    * @return the rendering context for WebGL
    */
-export function getWebGLContext(canvas, opt_debug = false) {
+
+export function getWebGLContext(canvas: HTMLCanvasElement | null, opt_debug = false) {
+    if (!canvas) {
+        return {gl: null};
+    }
     // Get the rendering context for WebGL
     var gl = WebGLUtils.setupWebGL(canvas);
-    if (!gl) return null;
+    if (!gl) return {gl: null};
   
     // if opt_debug is explicitly false, create the context for debugging
     if (arguments.length < 2 || opt_debug) {
-        gl = WebGLDebugUtils.makeDebugContext(gl);
+        return {
+            gl,
+            debugContext: WebGLDebugUtils.makeDebugContext(gl)
+        };
     }
   
-    return gl;
+    return {gl, debugContext: null};
 }

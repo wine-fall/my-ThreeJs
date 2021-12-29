@@ -9,7 +9,7 @@ const HellowCavans: React.FC = () => {
         if (!canvas) {
             return;
         }
-        const gl = getWebGLContext(canvas);
+        const {gl} = getWebGLContext(canvas);
         
         if (!gl) {
             return;

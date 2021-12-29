@@ -18,11 +18,11 @@ const HellowPoint1: React.FC = () => {
         + '}\n';
     useEffect(() => {
         const canvas = canvasRef.current;
-        const gl = getWebGLContext(canvas);
+        const {gl} = getWebGLContext(canvas);
         if (!gl) {
             return;
         }
-        if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+        if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE).isinit) {
             return;
         }
 

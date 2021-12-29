@@ -20,14 +20,14 @@ const HellowPoint2: React.FC = () => {
         + '}\n';
     useEffect(() => {
         const canvas = canvasRef.current;
-        const gl = getWebGLContext(canvas);
+        const {gl} = getWebGLContext(canvas);
         if (!gl) {
             return;
         }
-        if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+        const {program, isinit} = initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+        if (!isinit) {
             return;
         }
-        const program = gl.createProgram();
         if (!program) {
             return;
         }
