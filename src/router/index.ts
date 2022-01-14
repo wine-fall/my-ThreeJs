@@ -22,12 +22,12 @@ export const routerConfig: CustomizeRouteProps[] = [
     {
         key: 'drawRectangle',
         path: '/webgl/drawRectangle',
-        component: lazy(() => import('../views/WegGl/RrawRectangle'))
+        component: lazy(() => import('../views/WegGl/DrawRectangle'))
     },
     {
         key: 'hellowCavans',
         path: '/webgl/hellowCavans',
-        component: lazy(() => import('../views/WegGl/HellowCavans'))
+        component: lazy(() => import('../views/WegGl/HellowCavnas'))
     },
     {
         key: 'hellowPoint1',
@@ -43,5 +43,10 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'clickedPoints',
         path: '/webgl/clickedPoints',
         component: lazy(() => import('../views/WegGl/ClickedPoints'))
+    },
+    {
+        key: 'coloredPoints',
+        path: '/webgl/coloredPoints',
+        component: lazy(() => import('../views/WegGl/ColoredPoints'))
     }
 ];

@@ -16,7 +16,7 @@ const RrawRectangle: React.FC = () => {
         ctx.fillRect(120, 10, 150, 150);
     }, []);
 
-    return <canvas ref={canvasRef} id='drawRectangle'></canvas>;
+    return <canvas ref={canvasRef}></canvas>;
 };
 
 export default RrawRectangle;
