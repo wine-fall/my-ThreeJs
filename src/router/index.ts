@@ -48,5 +48,10 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'coloredPoints',
         path: '/webgl/coloredPoints',
         component: lazy(() => import('../views/WegGl/ColoredPoints'))
+    },
+    {
+        key: 'multiPoints',
+        path: '/webgl/MultiPoints',
+        component: lazy(() => import('../views/WegGl/MultiPoints'))
     }
 ];
