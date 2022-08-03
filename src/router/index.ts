@@ -27,7 +27,7 @@ export const routerConfig: CustomizeRouteProps[] = [
     {
         key: 'hellowCavans',
         path: '/webgl/hellowCavans',
-        component: lazy(() => import('../views/WegGl/HellowCavnas'))
+        component: lazy(() => import('../views/WegGl/HellowCanvas'))
     },
     {
         key: 'hellowPoint1',
