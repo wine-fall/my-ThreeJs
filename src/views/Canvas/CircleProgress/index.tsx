@@ -135,12 +135,10 @@ const CircleProgress: React.FC = () => {
 
     return (
         <CommonWrapper>
-            <div className={'canvasWrapper'}>
-                <canvas ref={canvasRef} width="400"
-                    height="400"></canvas>
-                <button className={styles.circleBtn} onClick={handleClick}>click me draw the circle</button>
-                <button className={styles.circleBtn} onClick={handleAutoDraw}>auto draw the circle</button>
-            </div>
+            <canvas ref={canvasRef} width="400"
+                height="400"></canvas>
+            <button className={styles.circleBtn} onClick={handleClick}>click me draw the circle</button>
+            <button className={styles.circleBtn} onClick={handleAutoDraw}>auto draw the circle</button>
         </CommonWrapper>
     );
 };
