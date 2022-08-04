@@ -39,6 +39,26 @@ module.exports = {
         'react-hooks/exhaustive-deps': 'off',
         'react/prop-types': 0,
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        'react/jsx-wrap-multilines': [
+            'error',
+            {
+                declaration: 'parens-new-line',
+                assignment: 'parens-new-line',
+                return: 'parens-new-line',
+                arrow: 'parens-new-line',
+                condition: 'parens-new-line',
+                logical: 'parens-new-line',
+                prop: 'parens-new-line',
+            },
+        ],
+        quotes: ["error", "single"],
+        'react/jsx-max-props-per-line': [
+            'error',
+            {
+                maximum: 2,
+                when: 'always',
+            },
+        ],
     }
 };
