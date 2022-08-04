@@ -51,7 +51,12 @@ export const routerConfig: CustomizeRouteProps[] = [
     },
     {
         key: 'multiPoints',
-        path: '/webgl/MultiPoints',
+        path: '/webgl/multiPoints',
         component: lazy(() => import('../views/WegGl/MultiPoints'))
+    },
+    {
+        key: 'circleProgress',
+        path: '/canvas/circleProgress',
+        component: lazy(() => import('../views/Canvas/CircleProgress'))
     }
 ];
