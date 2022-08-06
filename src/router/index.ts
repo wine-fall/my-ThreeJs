@@ -3,12 +3,17 @@ import {RouteProps} from 'react-router';
 
 export interface CustomizeRouteProps extends RouteProps {
     key: string;
-    path?: string;
+    path: string;
+    component: React.FC;
     exact?: boolean;
-    component?: React.FC;
 }
 
 export const routerConfig: CustomizeRouteProps[] = [
+    {
+        key: 'home',
+        path: '/home',
+        component: lazy(() => import('../views/Home'))
+    },
     {
         key: 'three',
         path: '/three',

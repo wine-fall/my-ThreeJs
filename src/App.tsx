@@ -8,7 +8,7 @@ function App() {
             <BrowserRouter>
                 <Switch>
                     <Redirect exact={true} from="/"
-                        to='/three' />
+                        to='/home' />
                     {
                         routerConfig.map(
                             (item: CustomizeRouteProps) => {
