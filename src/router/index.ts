@@ -63,5 +63,10 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'circleProgress',
         path: '/canvas/circleProgress',
         component: lazy(() => import('../views/Canvas/CircleProgress'))
+    },
+    {
+        key: 'shadowDog',
+        path: '/canvas/shadowDog',
+        component: lazy(() => import('../views/Canvas/ShadowDog'))
     }
 ];

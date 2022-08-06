@@ -32,6 +32,8 @@ const CircleProgress: React.FC = () => {
         if (!canvas) {
             return;
         }
+        canvas.width = 400;
+        canvas.height = 400;
         const params = getDefaultArcParams(canvas);
         const context = canvas.getContext('2d')!;
         setContext2d(context);
@@ -137,8 +139,10 @@ const CircleProgress: React.FC = () => {
         <CommonWrapper>
             <canvas ref={canvasRef} width="400"
                 height="400"></canvas>
-            <button className={styles.circleBtn} onClick={handleClick}>click me draw the circle</button>
-            <button className={styles.circleBtn} onClick={handleAutoDraw}>auto draw the circle</button>
+            <div>
+                <button className={styles.circleBtn} onClick={handleClick}>click me draw the circle</button>
+                <button className={styles.circleBtn} onClick={handleAutoDraw}>auto draw the circle</button>
+            </div>
         </CommonWrapper>
     );
 };
