@@ -1,7 +1,7 @@
 import React, {ChangeEventHandler, useEffect, useRef} from 'react';
 import {CommonWrapper} from '@/components';
 import shadowDogPic from '@/assets/img/shadow_dog.png';
-import {ActionTypeOpts} from './constant';
+import {ActionTypeOpts} from '../constant';
 
 const ShadowDog: React.FC = () => {
 
@@ -63,6 +63,7 @@ const ShadowDog: React.FC = () => {
 
     return (
         <CommonWrapper>
+            change the select to see different action
             <select onChange={handleSelcetChange}>
                 {ActionTypeOpts.map((opt) => {
                     return <option key={opt.name} value={opt.name}>{opt.name}</option>;
