@@ -68,5 +68,10 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'shadowDog',
         path: '/canvas/shadowDog',
         component: lazy(() => import('../views/Canvas/ShadowDog'))
+    },
+    {
+        key: 'parallaxBackgrounds',
+        path: '/canvas/parallaxBackgrounds',
+        component: lazy(() => import('../views/Canvas/ParallaxBackgrounds'))
     }
 ];
