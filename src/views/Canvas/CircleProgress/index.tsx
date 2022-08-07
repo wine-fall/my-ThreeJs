@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {ArcParamsInter} from '@/common';
+import {ArcParamsInter} from '@/common/Interface';
 import {transAngle2Rad} from '@/utils';
 import {CommonWrapper} from '@/components';
 
