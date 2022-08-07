@@ -1,7 +1,7 @@
 import React, {ChangeEventHandler, useEffect, useRef} from 'react';
 import {CommonWrapper} from '@/components';
 import shadowDogPic from '@/assets/img/shadow_dog.png';
-import {ActionTypeOpts} from '../constant';
+import {ActionTypeOpts} from '@/common/Constant';
 
 const ShadowDog: React.FC = () => {
 
