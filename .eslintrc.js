@@ -52,7 +52,7 @@ module.exports = {
                 prop: 'parens-new-line',
             },
         ],
-        quotes: ["error", "single"],
+        'quotes': ["error", "single"],
         'react/jsx-max-props-per-line': [
             'error',
             {
@@ -60,5 +60,13 @@ module.exports = {
                 when: 'always',
             },
         ],
+        'space-before-function-paren': [
+            'error',
+            {anonymous: 'always', named: 'never'},
+        ],
+        'space-infix-ops': ['error'],
+        '@typescript-eslint/type-annotation-spacing': ['error'],
+        'no-multi-spaces': 'error',
+        'key-spacing': ["error"]
     }
 };
