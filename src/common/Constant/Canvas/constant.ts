@@ -249,7 +249,7 @@ export class Enemy3 extends Enemy {
         this.baseY = this.canvas.height / 2 - spriteHeight / (2 * ratio);
     }
     update() {
-        const {curve = 10, angleSpeed = 0.2, separator, frames} = this.options;
+        const {angleSpeed = 0.2, separator, frames} = this.options;
         this.move += angleSpeed;
         /**
          * change the 'curve' part to see different animation.

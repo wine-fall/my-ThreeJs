@@ -3,6 +3,6 @@ export const setCanvasSize = (canvasRef: React.RefObject<HTMLCanvasElement>, w: 
     if (!canvas) {
         return;
     }
-    canvas.width = 600;
-    canvas.height = 600;
+    canvas.width = w;
+    canvas.height = h;
 };
