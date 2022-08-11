@@ -27,3 +27,12 @@ export interface ActionTypeOptsProps {
     name: string;
     frameNums: number;
 }
+
+export interface ExplosionOptions extends EnemyOptions {
+    x: number;
+    y: number;
+}
+
+export interface ExplosionParams extends Omit<ExplosionOptions, 'imgPath'> {
+    image: HTMLImageElement;
+}
