@@ -22,3 +22,8 @@ export interface EnemyOptions {
 export interface EnemyParams extends Omit<EnemyOptions, 'imgPath'> {
     image: HTMLImageElement;
 }
+
+export interface ActionTypeOptsProps {
+    name: string;
+    frameNums: number;
+}

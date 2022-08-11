@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {CommonWrapper} from '@/components';
 import {setCanvasSize, getEnemiesArr} from '@/utils';
-import {Enemy, enemyParamsMap} from '@/common/Constant/Canvas/constant';
+import {Enemy, enemyParamsMap} from '@/common/Constant/Canvas';
 
 const Enemies: React.FC = () => {
     const [enemyType, setEnemyType] = useState<string>('enemy1');
