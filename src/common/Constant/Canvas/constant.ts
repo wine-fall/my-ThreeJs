@@ -290,18 +290,20 @@ export class Enemy4 extends Enemy {
         this.interval = Math.floor(Math.random() * 200 + 50);
     }
     update() {
-        const {frames} = this.options;
+        const {frames, separator} = this.options;
         /**
          * set the interval to a certain and small value, 1 for example.
          * All the enemies will move to a certain point of canvas.
          * I think it can be explained from mathematical point of view, but don't know the excatlly answer.
          */
         if (this.updateCnt % this.interval === 0) {
-            this.frameX = (this.frameX + 1) % frames;
             this.nxtX = Math.random() * (this.canvas.width);
             this.nxtY = Math.random() * (this.canvas.height);
             // this.nxtX = 10;
             // this.nxtY = 20;
+        }
+        if (this.updateCnt % separator === 0) {
+            this.frameX = (this.frameX + 1) % frames;
         }
         const difX = this.x - this.nxtX;
         const difY = this.y - this.nxtY;
