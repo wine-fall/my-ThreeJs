@@ -31,7 +31,7 @@ export class Enemy {
             image: createImage(options.imgPath)
         };
         this.ctx = ctx;
-        this.updateCnt = 0;
+        this.updateCnt = 1;
         const {width: canvasW, height: canvasH} = canvas;
         this.canvas = canvas;
         const {random} = Math;

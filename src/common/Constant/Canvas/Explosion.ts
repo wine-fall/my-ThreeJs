@@ -7,6 +7,9 @@ export class Explosion {
     options: ExplosionParams;
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
+    x: number;
+    y: number;
+    angle: number;
 
     constructor(
         canvas: HTMLCanvasElement,
@@ -19,25 +22,30 @@ export class Explosion {
             ...options,
             image: createImage(options.imgPath)
         };
-        this.updateCnt = 0;
+        this.updateCnt = 1;
         this.frameX = 0;
+        this.x = options.x;
+        this.y = options.y;
+        this.angle = Math.random() * 6.2;
     }
 
     update() {
         const {separator} = this.options;
         if (this.updateCnt % separator === 0) {
-            this.frameX = (this.frameX + 1) % separator;
+            this.frameX += 1;
         }
         this.updateCnt = (this.updateCnt + 1) % separator;
     }
 
     draw() {
-        const {width, height} = this.canvas;
-        const {spriteWidth, spriteHeight, ratio, x, y} = this.options;
-        this.ctx.clearRect(0, 0, width, height);
+        const {spriteWidth, spriteHeight, ratio} = this.options;
+        this.ctx.save();
+        this.ctx.translate(this.x, this.y);
+        this.ctx.rotate(this.angle);
         this.ctx.drawImage(this.options.image,
             this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
-            x, y, spriteWidth / ratio, spriteHeight / ratio
+            0 - ((spriteWidth * ratio) / 2), 0 - ((spriteHeight * ratio) / 2), spriteWidth * ratio, spriteHeight * ratio
         );
+        this.ctx.restore();
     }
 }

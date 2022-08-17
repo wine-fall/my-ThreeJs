@@ -1,23 +1,24 @@
-import React, {MouseEvent, MouseEventHandler, useEffect, useRef} from 'react';
+import React, {MouseEventHandler, useEffect, useRef} from 'react';
 import {CommonWrapper} from '@/components';
 import {setCanvasSize} from '@/utils';
 import {Explosion} from '@/common/Constant';
 import boomPic from '@/assets/img/boom.png';
-
-// import './index.module.less';
 
 const Collision: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const explosionSet = new Set<Explosion>();
 
-    const animation = () => {
-        for (const [key, value] of explosionSet.values) {
-
+    const animation = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const [, explosion] of explosionSet.entries()) {
+            explosion.update();
+            explosion.draw();
+            if (explosion.frameX > 5) {
+                explosionSet.delete(explosion);
+            }
         }
-        explosion.update();
-        explosion.draw();
-        requestAnimationFrame(() => animation(explosion));
+        requestAnimationFrame(() => animation(ctx, canvas));
     };
 
     useEffect(() => {
@@ -31,9 +32,10 @@ const Collision: React.FC = () => {
         }
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         setCanvasSize(canvasRef, 600, 600);
+        animation(ctx, canvas);
     }, []);
 
-    const handleCanvasClick: MouseEventHandler<HTMLCanvasElement> = (e) => {
+    const createExplosion: MouseEventHandler<HTMLCanvasElement> = (e) => {
         const canvas = canvasRef.current;
         if (!canvas) {
             return;
@@ -52,17 +54,28 @@ const Collision: React.FC = () => {
             spriteHeight: 179,
             imgPath: boomPic,
             frames: 5,
-            ratio: 2,
+            ratio: 0.5,
             x,
             y
         });
         explosionSet.add(explosion);
-        animation();
+    };
+
+    const handleCanvasClick: MouseEventHandler<HTMLCanvasElement> = (e) => {
+        createExplosion(e);
+    };
+
+    const handleMouseMove: MouseEventHandler<HTMLCanvasElement> = (e) => {
+        createExplosion(e);
     };
 
     return (
         <CommonWrapper>
-            <canvas onClick={handleCanvasClick} ref={canvasRef}></canvas>
+            <canvas
+                onMouseMove={handleMouseMove}
+                onClick={handleCanvasClick}
+                ref={canvasRef}
+            ></canvas>
         </CommonWrapper>
     );
 };
