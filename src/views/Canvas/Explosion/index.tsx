@@ -1,8 +1,7 @@
 import React, {MouseEventHandler, useEffect, useRef} from 'react';
 import {CommonWrapper} from '@/components';
 import {setCanvasSize} from '@/utils';
-import {Explosion} from '@/common/Constant';
-import boomPic from '@/assets/img/boom.png';
+import {Explosion, ExplosionBaseOptions} from '@/common/Constant';
 
 const Collision: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,12 +48,7 @@ const Collision: React.FC = () => {
         const x = e.clientX - left;
         const y = e.clientY - top;
         const explosion = new Explosion(canvas!, ctx, {
-            separator: 7,
-            spriteWidth: 200,
-            spriteHeight: 179,
-            imgPath: boomPic,
-            frames: 5,
-            ratio: 0.5,
+            ...ExplosionBaseOptions,
             x,
             y
         });

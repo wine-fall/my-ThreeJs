@@ -1,6 +1,6 @@
 import {createImage} from '@/utils';
 import {ExplosionOptions, ExplosionParams} from '@/common/Interface';
-
+import boomPic from '@/assets/img/boom.png';
 export class Explosion {
     updateCnt: number;
     frameX: number;
@@ -49,3 +49,12 @@ export class Explosion {
         this.ctx.restore();
     }
 }
+
+export const ExplosionBaseOptions = {
+    separator: 7,
+    spriteWidth: 200,
+    spriteHeight: 179,
+    imgPath: boomPic,
+    frames: 5,
+    ratio: 0.5,
+};

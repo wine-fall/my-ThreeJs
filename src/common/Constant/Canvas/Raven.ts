@@ -8,16 +8,20 @@ export class Raven {
     updateCnt: number;
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
+    ctxWrapper: CanvasRenderingContext2D;
     x: number;
     y: number;
     directionY: number;
+    color: string;
     constructor(
         canvas: HTMLCanvasElement,
         ctx: CanvasRenderingContext2D,
-        options: RavenOptions
+        options: RavenOptions,
+        ctxWrapper: CanvasRenderingContext2D
     ) {
         this.canvas = canvas;
         this.ctx = ctx;
+        this.ctxWrapper = ctxWrapper;
         this.options = {
             ...options,
             image: createImage(options.imgPath)
@@ -27,31 +31,41 @@ export class Raven {
         this.x = this.OriginX;
         this.y = this.OriginY;
         this.directionY = this.directionYFlag;
+        this.ctx.font = '50px Impact';
+        this.color = this.RandomColor;
     }
 
     get OriginX() {
-        return Math.random() * this.canvas.width;
+        return this.canvas.width;
     }
 
     get OriginY() {
-        return Math.random() * this.canvas.height;
+        const {spriteHeight, ratio} = this.options;
+        return Math.min(
+            Math.random() * this.canvas.height,
+            this.canvas.height - spriteHeight * ratio
+        );
     }
 
     get directionYFlag() {
         return ((Math.random() - 0.5) > 0 ? 1 : -1);
     }
 
+    get RandomColor() {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
     update() {
-        const {separator, frames, speedX, speedY, spriteWidth, spriteHeight, ratio} = this.options;
+        const {separator, frames, speedX, speedY, spriteHeight, ratio} = this.options;
         if (this.updateCnt % separator === 0) {
             this.frameX = (this.frameX + 1) % frames;
         }
-        this.updateCnt = (this.updateCnt + 1) % separator;
         this.x -= speedX;
-        if (this.x < 0 - spriteWidth * ratio) {
-            this.x = this.canvas.width;
-        }
         this.y += this.directionY * speedY;
+        this.updateCnt = (this.updateCnt + 1) % separator;
         if (this.y > this.canvas.height - spriteHeight * ratio || this.y < 0) {
             this.directionY = -this.directionY;
         }
@@ -59,7 +73,8 @@ export class Raven {
     }
     draw() {
         const {image, spriteWidth, spriteHeight, ratio} = this.options;
-        this.ctx.strokeRect(this.x, this.y, spriteWidth * ratio, spriteHeight * ratio);
+        this.ctxWrapper.fillStyle = this.color;
+        this.ctxWrapper.fillRect(this.x, this.y, spriteWidth * ratio, spriteHeight * ratio);
         this.ctx.drawImage(image,
             this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
             this.x, this.y, spriteWidth * ratio, spriteHeight * ratio
@@ -78,5 +93,5 @@ export const RavenBaseOptions: RavenOptions = {
     x: 0,
     y: 0,
     speedX: 5,
-    speedY: 2
+    speedY: 1
 };
