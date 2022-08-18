@@ -83,5 +83,10 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'collision',
         path: '/canvas/collision',
         component: lazy(() => import('../views/Canvas/Explosion'))
+    },
+    {
+        key: 'shootGame',
+        path: '/canvas/shootGame',
+        component: lazy(() => import('../views/Canvas/ShootGame'))
     }
 ];
