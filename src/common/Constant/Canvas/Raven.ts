@@ -31,7 +31,6 @@ export class Raven {
         this.x = this.OriginX;
         this.y = this.OriginY;
         this.directionY = this.directionYFlag;
-        this.ctx.font = '50px Impact';
         this.color = this.RandomColor;
     }
 
