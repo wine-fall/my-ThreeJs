@@ -1,5 +1,5 @@
 import {createImage} from '@/utils';
-import {RavenOptions, RavenParams} from '@/common/Interface';
+import {RavenOptions, RavenParams, CreateParticleFn} from '@/common/Interface';
 import ravenPic from '@/assets/img/raven.png';
 
 export class Raven {
@@ -58,10 +58,11 @@ export class Raven {
         return `rgb(${r}, ${g}, ${b})`;
     }
 
-    update() {
-        const {separator, frames, speedX, speedY, spriteHeight, ratio} = this.options;
+    update(createParticle: CreateParticleFn) {
+        const {separator, frames, speedX, speedY, spriteHeight, spriteWidth, ratio} = this.options;
         if (this.updateCnt % separator === 0) {
             this.frameX = (this.frameX + 1) % frames;
+            createParticle(this.ctx, this.x, this.y, spriteWidth * ratio, this.color);
         }
         this.x -= speedX;
         this.y += this.directionY * speedY;
@@ -73,12 +74,12 @@ export class Raven {
     }
     draw() {
         const {image, spriteWidth, spriteHeight, ratio} = this.options;
-        this.ctxWrapper.fillStyle = this.color;
-        this.ctxWrapper.fillRect(this.x, this.y, spriteWidth * ratio, spriteHeight * ratio);
         this.ctx.drawImage(image,
             this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
             this.x, this.y, spriteWidth * ratio, spriteHeight * ratio
         );
+        this.ctxWrapper.fillStyle = this.color;
+        this.ctxWrapper.fillRect(this.x, this.y, spriteWidth * ratio, spriteHeight * ratio);
         return;
     }
 }
@@ -92,6 +93,6 @@ export const RavenBaseOptions: RavenOptions = {
     ratio: 0.3,
     x: 0,
     y: 0,
-    speedX: 5,
+    speedX: 3,
     speedY: 1
 };

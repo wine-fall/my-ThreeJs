@@ -50,3 +50,5 @@ export interface RavenOptions extends BaseOptions {
 export interface RavenParams extends Omit<RavenOptions, 'imgPath'> {
     image: HTMLImageElement;
 }
+
+export type CreateParticleFn = (ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, color: string) => void

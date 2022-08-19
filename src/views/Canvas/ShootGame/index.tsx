@@ -1,8 +1,9 @@
 import React, {MouseEventHandler, useEffect, useRef} from 'react';
 import {CommonWrapper} from '@/components';
 import {setCanvasSize} from '@/utils';
-import {Raven, RavenBaseOptions, Explosion, ExplosionBaseOptions} from '@/common/Constant';
+import {Raven, RavenBaseOptions, Explosion, ExplosionBaseOptions, Particle} from '@/common/Constant';
 import styles from './index.module.less';
+import {CreateParticleFn} from '@/common/Interface';
 
 const ShootGame: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,6 +15,7 @@ const ShootGame: React.FC = () => {
     let score = 0;
     const ravenMap = new Map<string, Raven>();
     const explosionSet = new Set<Explosion>();
+    const particleSet = new Set<Particle>();
 
     const animation = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, ctxWrapper: CanvasRenderingContext2D) => {
         const curTime = new Date().valueOf();
@@ -27,6 +29,14 @@ const ShootGame: React.FC = () => {
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctxWrapper.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (const [, particle] of particleSet.entries()) {
+            particle.update();
+            particle.draw();
+            if (particle.radius > particle.maxRadius - 5) {
+                particleSet.delete(particle);
+            }
+        }
         for (const [, explosion] of explosionSet.entries()) {
             explosion.update();
             explosion.draw();
@@ -36,7 +46,7 @@ const ShootGame: React.FC = () => {
         }
         for (const [color, raven] of ravenMap.entries()) {
             raven.draw();
-            raven.update();
+            raven.update(createParticle);
             if (raven.x < 0 - raven.options.spriteWidth * raven.options.ratio) {
                 ravenMap.delete(color);
             }
@@ -64,18 +74,26 @@ const ShootGame: React.FC = () => {
         animation(ctx, canvas, ctxWrapper);
     }, []);
 
+    const createParticle: CreateParticleFn = (ctx, x, y, radius, color) => {
+        for (let i = 0; i < 5; i++) {
+            particleSet.add(new Particle(ctx, x, y, radius, color));
+        }
+    };
+
     const drawScore = (ctx: CanvasRenderingContext2D) => {
         ctx.fillStyle = '#000';
         ctx.fillText(`Score: ${score}`, 50, 80);
     };
 
     const handleClickCanvas: MouseEventHandler<HTMLCanvasElement> = (e) => {
+        const canvas = canvasRef.current;
         const canvasWrapper = canvasWrapperRef.current;
-        if (!canvasWrapper) {
+        if (!canvas || !canvasWrapper) {
             return;
         }
+        const ctx = canvas.getContext('2d');
         const ctxWrapper = canvasWrapper.getContext('2d');
-        if (!ctxWrapper) {
+        if (!ctx || !ctxWrapper) {
             return;
         }
         const left = canvasWrapper.getBoundingClientRect().left;
@@ -89,7 +107,7 @@ const ShootGame: React.FC = () => {
             console.log(color);
         }
         if (ravenMap.has(color)) {
-            const explosion = new Explosion(canvasWrapper!, ctxWrapper, {
+            const explosion = new Explosion(canvasWrapper!, ctx, {
                 ...ExplosionBaseOptions,
                 x,
                 y
