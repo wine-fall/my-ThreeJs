@@ -53,18 +53,29 @@ const ShootGame: React.FC = () => {
                 explosionSet.delete(explosion);
             }
         }
-        for (const [color, raven] of ravenMap.entries()) {
+        const ravenKeys = Array.from(ravenMap.keys());
+        ravenKeys.sort((o1, o2) => {
+            return ravenMap.get(o1)!.options.spriteWidth - ravenMap.get(o2)!.options.spriteWidth;
+        });
+        ravenKeys.forEach(key => {
+            const raven = ravenMap.get(key)!;
             raven.draw();
             raven.update(createParticle);
             if (raven.x < 0 - raven.options.spriteWidth * raven.options.ratio) {
-                ravenMap.delete(color);
+                ravenMap.delete(key);
                 lostCnt++;
             }
-        }
+        });
         drawScore(ctx);
     };
     const addRaven: ShootGameAnimationFn = (ctx, canvas, ctxWrapper) => {
-        const raven = new Raven(canvas, ctx, {...RavenBaseOptions, ratio: Math.random() + 0.3}, ctxWrapper);
+        const raven = new Raven(canvas, ctx,
+            {
+                ...RavenBaseOptions,
+                ratio: Math.random() + 0.3,
+                speedX: Math.random() * 5 + 3
+            },
+            ctxWrapper);
         time2CreateRaven = 0;
         ravenMap.set(raven.color, raven);
     };
