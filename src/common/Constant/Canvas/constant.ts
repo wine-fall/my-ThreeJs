@@ -61,7 +61,6 @@ export class Layer {
     height: number;
     x: number;
     y: number;
-    x2: number;
     speed: number;
     ctx: CanvasRenderingContext2D;
     baseSpeed: number;
@@ -73,7 +72,6 @@ export class Layer {
         this.height = 700;
         this.x = 0;
         this.y = 0;
-        this.x2 = this.width;
         this.baseSpeed = 15;
         this.speed = speedMulti * this.baseSpeed;
         this.ctx = ctx;
@@ -86,20 +84,14 @@ export class Layer {
 
     update() {
         if (this.x < -this.width) {
-            this.x = this.width + Math.floor(this.x2 - this.speed);
-        } else {
-            this.x = Math.floor(this.x - this.speed);
+            this.x = 0;
         }
-        if (this.x2 < -this.width) {
-            this.x2 = this.width + Math.floor(this.x - this.speed);
-        } else {
-            this.x2 = Math.floor(this.x2 - this.speed);
-        }
+        this.x = this.x - this.speed;
     }
 
     draw() {
         this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        this.ctx.drawImage(this.image, this.x2, this.y, this.width, this.height);
+        this.ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
     }
 }
 
