@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useEffect, useRef, useState} from 'react';
 import {CommonWrapper} from '@/components';
 import {Layer, layerParamsArr} from '@/common/Constant';
+import {setCanvasSize} from '@/utils';
 
 import './index.module.less';
 
@@ -42,7 +43,6 @@ const ParallaxBackgrounds: React.FC = () => {
     let gameSpeed = 20;
 
     const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log('value', +e.target.value);
         gameSpeed = +e.target.value;
         const speedDiv = document.getElementById('speedDivId');
         speedDiv!.innerText = `speed is ${e.target.value}`;
@@ -60,8 +60,7 @@ const ParallaxBackgrounds: React.FC = () => {
         if (!canvas) {
             return;
         }
-        canvas.width = 800;
-        canvas.height = 700;
+        setCanvasSize(canvasRef, 800, 700);
         const ctx = canvas.getContext('2d');
         if (!ctx) {
             return;

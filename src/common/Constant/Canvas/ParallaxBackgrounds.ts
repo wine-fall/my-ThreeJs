@@ -6,54 +6,6 @@ import layer3 from '@/assets/img/backgroundLayers/layer-3.png';
 import layer4 from '@/assets/img/backgroundLayers/layer-4.png';
 import layer5 from '@/assets/img/backgroundLayers/layer-5.png';
 
-export interface ActionTypeOptsProps {
-    name: string;
-    frameNums: number;
-}
-
-export const ActionTypeOpts: ActionTypeOptsProps[] = [
-    {
-        name: 'normal',
-        frameNums: 7,
-    },
-    {
-        name: 'jump',
-        frameNums: 7,
-    },
-    {
-        name: 'fall',
-        frameNums: 7,
-    },
-    {
-        name: 'run',
-        frameNums: 9,
-    },
-    {
-        name: 'dizzy',
-        frameNums: 11,
-    },
-    {
-        name: 'sit',
-        frameNums: 5,
-    },
-    {
-        name: 'roll',
-        frameNums: 7,
-    },
-    {
-        name: 'bite',
-        frameNums: 7,
-    },
-    {
-        name: 'ko',
-        frameNums: 12,
-    },
-    {
-        name: 'get-hit',
-        frameNums: 4,
-    },
-];
-
 export class Layer {
     image: HTMLImageElement;
     speedMulti: number;

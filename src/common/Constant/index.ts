@@ -1,1 +1,1 @@
-export * from './Canvas/constant';
+export * from './Canvas';

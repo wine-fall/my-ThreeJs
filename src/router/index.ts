@@ -73,5 +73,20 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'parallaxBackgrounds',
         path: '/canvas/parallaxBackgrounds',
         component: lazy(() => import('../views/Canvas/ParallaxBackgrounds'))
+    },
+    {
+        key: 'enemies',
+        path: '/canvas/enemies',
+        component: lazy(() => import('../views/Canvas/Enemies'))
+    },
+    {
+        key: 'collision',
+        path: '/canvas/collision',
+        component: lazy(() => import('../views/Canvas/Explosion'))
+    },
+    {
+        key: 'shootGame',
+        path: '/canvas/shootGame',
+        component: lazy(() => import('../views/Canvas/ShootGame'))
     }
 ];
