@@ -43,6 +43,11 @@ export class Enemy {
     }
 
     update() {
+        const {frames, separator} = this.options;
+        if (this.updateCnt % separator === 0) {
+            this.frameX = (this.frameX + 1) % frames;
+        }
+        this.updateCnt = (this.updateCnt + 1) % separator;
         return;
     }
 
@@ -50,7 +55,7 @@ export class Enemy {
         const {image, spriteWidth, spriteHeight, ratio} = this.options;
         this.ctx.drawImage(image,
             this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
-            this.x, this.y, spriteWidth / ratio, spriteHeight / ratio
+            this.x, this.y, spriteWidth * ratio, spriteHeight * ratio
         );
         return;
     }
@@ -115,8 +120,8 @@ export class Enemy3 extends Enemy {
     ) {
         super(canvas, ctx, options);
         const {spriteWidth, spriteHeight, ratio} = this.options;
-        this.baseX = this.canvas.width / 2 - spriteWidth / (2 * ratio);
-        this.baseY = this.canvas.height / 2 - spriteHeight / (2 * ratio);
+        this.baseX = this.canvas.width / 2 - (spriteWidth / 2) * ratio;
+        this.baseY = this.canvas.height / 2 - (spriteHeight / 2) * ratio;
     }
     update() {
         const {angleSpeed = 0.2, separator, frames} = this.options;
@@ -195,7 +200,7 @@ export const enemyParamsMap: {
             imgPath: enemy1Pic,
             frames: 6,
             separator: 1,
-            ratio: 3,
+            ratio: 0.3,
         },
         Contructor: Enemy1
     },
@@ -206,7 +211,7 @@ export const enemyParamsMap: {
             imgPath: enemy2Pic,
             frames: 6,
             separator: 3,
-            ratio: 3,
+            ratio: 0.3,
         },
         Contructor: Enemy2
     },
@@ -217,7 +222,7 @@ export const enemyParamsMap: {
             imgPath: enemy3Pic,
             frames: 6,
             separator: 3,
-            ratio: 3,
+            ratio: 0.3,
             curve: 200,
         },
         Contructor: Enemy3
@@ -229,7 +234,7 @@ export const enemyParamsMap: {
             imgPath: enemy4Pic,
             frames: 6,
             separator: 2,
-            ratio: 3,
+            ratio: 0.3,
             curve: 200,
         },
         Contructor: Enemy4

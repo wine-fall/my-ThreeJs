@@ -1,54 +1,22 @@
-import React, {ChangeEventHandler, useEffect, useRef} from 'react';
+import React, {ChangeEventHandler, useEffect, useRef, useState} from 'react';
 import {CommonWrapper} from '@/components';
-import shadowDogPic from '@/assets/img/shadow_dog.png';
-import {ActionTypeOpts} from '@/common/Constant';
+import {ActionTypeOpts, ShadowDogClass, shadowDogOptions} from '@/common/Constant';
+import {setCanvasSize} from '@/utils';
+import {ShadowActionType} from '@/common/Interface';
 
 const ShadowDog: React.FC = () => {
-
+    const [shadowDog, setShadowDog] = useState<ShadowDogClass | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    const img = new Image();
-    img.src = shadowDogPic;
-    const spriteWidth = 575;
-    const spriteHeight = 523;
-
-    const FrameParmas = {
-        frameX: 0,
-        frameY: 0,
-        frameNums: 7,
-        separator: 5,
-        frames: 0,
-    };
-    const animation = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) {
-            return;
-        }
-        const W = canvas.width;
-        const H = canvas.height;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-            return;
-        }
-        const {frameNums, frameX, frameY, frames, separator} = FrameParmas;
-        if (frames % separator === 0) {
-            const nxtFrameX = (frameX + 1) % frameNums;
-            FrameParmas.frameX = nxtFrameX;
-            ctx.clearRect(0, 0, W, H);
-            ctx.drawImage(img,
-                frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight,
-                0, 0, spriteWidth, spriteHeight);
-        }
-        FrameParmas.frames++;
-        requestAnimationFrame(animation);
+    const animation = (ctx: CanvasRenderingContext2D, shadowDog: ShadowDogClass) => {
+        ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        shadowDog.update();
+        shadowDog.draw();
+        requestAnimationFrame(() => animation(ctx, shadowDog));
     };
 
-    const handleSelcetChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-        const name = e.target.value;
-        const idx = ActionTypeOpts.findIndex(item => item.name === name);
-        const target = ActionTypeOpts.find(item => item.name === name);
-        FrameParmas.frameY = idx;
-        FrameParmas.frameNums = target?.frameNums || 0;
+    const handleSelcetChange = (shadowDog: ShadowDogClass): ChangeEventHandler<HTMLSelectElement> => (e) => {
+        const name = e.target.value as ShadowActionType;
+        shadowDog.changeType(name);
     };
 
     useEffect(() => {
@@ -56,17 +24,22 @@ const ShadowDog: React.FC = () => {
         if (!canvas) {
             return;
         }
-        canvas.width = 600;
-        canvas.height = 600;
-        animation();
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            return;
+        }
+        setCanvasSize(canvasRef, 600, 600);
+        const shadowDog = new ShadowDogClass(canvas, ctx, shadowDogOptions);
+        setShadowDog(shadowDog);
+        animation(ctx, shadowDog);
     }, []);
 
     return (
         <CommonWrapper>
             change the select to see different action
-            <select onChange={handleSelcetChange}>
-                {ActionTypeOpts.map((opt) => {
-                    return <option key={opt.name} value={opt.name}>{opt.name}</option>;
+            <select onChange={handleSelcetChange(shadowDog!)}>
+                {ActionTypeOpts.map(type => {
+                    return <option key={type} value={type}>{type}</option>;
                 })}
             </select>
             <canvas ref={canvasRef}></canvas>

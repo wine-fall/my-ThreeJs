@@ -7,6 +7,11 @@ export interface ArcParamsInter {
     counterclockwise?: boolean
 }
 
+export type ShadowActionType = 'updateNormal' | 'updateJump'
+    | 'updateFall' | 'updateRun' | 'updateDizzy'
+    | 'updateSit' | 'updateRoll' | 'updateBit'
+    | 'updateKo' | 'updateGetHit';
+
 export interface BaseOptions {
     spriteWidth: number;
     spriteHeight: number;
