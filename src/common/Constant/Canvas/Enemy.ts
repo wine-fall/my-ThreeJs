@@ -47,6 +47,11 @@ export class Enemy {
     }
 
     draw() {
+        const {image, spriteWidth, spriteHeight, ratio} = this.options;
+        this.ctx.drawImage(image,
+            this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
+            this.x, this.y, spriteWidth / ratio, spriteHeight / ratio
+        );
         return;
     }
 }
@@ -64,12 +69,7 @@ export class Enemy1 extends Enemy {
         this.y = this.y + this.move * this.speedY;
     }
     draw() {
-        const {image, spriteWidth, spriteHeight, ratio} = this.options;
-        
-        this.ctx.drawImage(image,
-            this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
-            this.x, this.y, spriteWidth / ratio, spriteHeight / ratio
-        );
+        super.draw();
     }
 }
 
@@ -101,11 +101,7 @@ export class Enemy2 extends Enemy {
         this.y += Math.sin(this.move) * curve;
     }
     draw() {
-        const {image, spriteWidth, spriteHeight, ratio} = this.options;
-        this.ctx.drawImage(image,
-            this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
-            this.x, this.y, spriteWidth / ratio, spriteHeight / ratio
-        );
+        super.draw();
     }
 }
 
@@ -139,11 +135,7 @@ export class Enemy3 extends Enemy {
         this.updateCnt = (this.updateCnt + 1) % separator;
     }
     draw() {
-        const {image, spriteWidth, spriteHeight, ratio} = this.options;
-        this.ctx.drawImage(image,
-            this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
-            this.x, this.y, spriteWidth / ratio, spriteHeight / ratio
-        );
+        super.draw();
     }
 }
 
@@ -186,11 +178,7 @@ export class Enemy4 extends Enemy {
         this.updateCnt = (this.updateCnt + 1) % this.interval;
     }
     draw() {
-        const {image, spriteWidth, spriteHeight, ratio} = this.options;
-        this.ctx.drawImage(image,
-            this.frameX * spriteWidth, 0, spriteWidth, spriteHeight,
-            this.x, this.y, spriteWidth / ratio, spriteHeight / ratio
-        );
+        super.draw();
     }
 }
 
