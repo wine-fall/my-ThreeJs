@@ -138,9 +138,6 @@ const ShootGame: React.FC = () => {
         const imageData = ctxWrapper.getImageData(x, y, 1, 1);
         const [r, g, b] = imageData.data;
         const color = `rgb(${r}, ${g}, ${b})`;
-        if (!ravenMap.has(color)) {
-            console.log(color);
-        }
         if (ravenMap.has(color)) {
             const raven = ravenMap.get(color);
             const explosion = new Explosion(canvasWrapper!, ctx, {
