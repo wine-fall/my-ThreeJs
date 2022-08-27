@@ -1,14 +1,9 @@
 import {createImage} from '@/utils';
 import {ExplosionOptions, ExplosionParams} from '@/common/Interface';
 import boomPic from '@/assets/img/boom.png';
-export class Explosion {
-    updateCnt: number;
-    frameX: number;
+import {BaseEle} from './BaseEle';
+export class Explosion extends BaseEle {
     options: ExplosionParams;
-    canvas: HTMLCanvasElement;
-    ctx: CanvasRenderingContext2D;
-    x: number;
-    y: number;
     angle: number;
 
     constructor(
@@ -16,6 +11,7 @@ export class Explosion {
         ctx: CanvasRenderingContext2D,
         options: ExplosionOptions
     ) {
+        super(canvas, ctx, options);
         this.canvas = canvas;
         this.ctx = ctx;
         this.options = {

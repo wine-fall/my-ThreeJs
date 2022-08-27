@@ -60,7 +60,7 @@ const ShootGame: React.FC = () => {
         ravenKeys.forEach(key => {
             const raven = ravenMap.get(key)!;
             raven.draw();
-            raven.update(createParticle);
+            raven.updateRaven(createParticle);
             if (raven.x < 0 - raven.options.spriteWidth * raven.options.ratio) {
                 ravenMap.delete(key);
                 lostCnt++;
@@ -111,6 +111,8 @@ const ShootGame: React.FC = () => {
     };
 
     const drawGameOver = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, canvas.height / 4 + 25, canvas.width, canvas.height / 3);
         ctx.save();
         ctx.font = '30px Impact';
         ctx.fillStyle = '#999';
@@ -118,6 +120,7 @@ const ShootGame: React.FC = () => {
         ctx.fillText(`you have let ${MAX_LOST_CNT} ravens escaped`, canvas.width / 2, canvas.height / 2 - 50);
         ctx.fillText(`Game is over and your score is: ${score}`, canvas.width / 2, canvas.height / 2);
         ctx.restore();
+
     };
 
     const handleClickCanvas: MouseEventHandler<HTMLCanvasElement> = (e) => {

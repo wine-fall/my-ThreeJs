@@ -1,16 +1,11 @@
 import {createImage} from '@/utils';
 import {RavenOptions, RavenParams, CreateParticleFn} from '@/common/Interface';
 import ravenPic from '@/assets/img/raven.png';
+import {BaseEle} from './BaseEle';
 
-export class Raven {
+export class Raven extends BaseEle {
     options: RavenParams;
-    frameX: number;
-    updateCnt: number;
-    canvas: HTMLCanvasElement;
-    ctx: CanvasRenderingContext2D;
     ctxWrapper: CanvasRenderingContext2D;
-    x: number;
-    y: number;
     directionY: number;
     color: string;
     constructor(
@@ -19,15 +14,12 @@ export class Raven {
         options: RavenOptions,
         ctxWrapper: CanvasRenderingContext2D
     ) {
-        this.canvas = canvas;
-        this.ctx = ctx;
+        super(canvas, ctx, options);
         this.ctxWrapper = ctxWrapper;
         this.options = {
             ...options,
             image: createImage(options.imgPath)
         };
-        this.frameX = 0;
-        this.updateCnt = 0;
         this.x = this.OriginX;
         this.y = this.OriginY;
         this.directionY = this.directionYFlag;
@@ -57,7 +49,7 @@ export class Raven {
         return `rgb(${r}, ${g}, ${b})`;
     }
 
-    update(createParticle: CreateParticleFn) {
+    updateRaven(createParticle: CreateParticleFn) {
         const {separator, frames, speedX, speedY, spriteHeight, spriteWidth, ratio} = this.options;
         if (this.updateCnt % separator === 0) {
             this.frameX = (this.frameX + 1) % frames;

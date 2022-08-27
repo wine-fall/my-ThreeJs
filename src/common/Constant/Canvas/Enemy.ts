@@ -1,15 +1,16 @@
-import {EnemyOptions, EnemyParams} from '@/common/Interface';
+import {EnemyOptions, BaseParams} from '@/common/Interface';
 import {createImage} from '@/utils';
 
 import enemy1Pic from '@/assets/img/enemies/enemy1.png';
 import enemy2Pic from '@/assets/img/enemies/enemy2.png';
 import enemy3Pic from '@/assets/img/enemies/enemy3.png';
 import enemy4Pic from '@/assets/img/enemies/enemy4.png';
+import {BaseEle} from './BaseEle';
 
-export class Enemy {
+export class Enemy extends BaseEle {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
-    options: EnemyParams;
+    options: BaseParams;
     updateCnt: number;
     frameX: number;
     x: number;
@@ -23,6 +24,7 @@ export class Enemy {
         ctx: CanvasRenderingContext2D,
         options: EnemyOptions
     ) {
+        super(canvas, ctx, options);
         const {moveSpeed = 1} = options;
 
         this.frameX = 0;
@@ -79,7 +81,7 @@ export class Enemy1 extends Enemy {
 }
 
 export class Enemy2 extends Enemy {
-    options: EnemyParams;
+    options: BaseParams;
     constructor(
         canvas: HTMLCanvasElement,
         ctx: CanvasRenderingContext2D,

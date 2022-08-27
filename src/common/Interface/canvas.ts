@@ -27,7 +27,7 @@ export interface EnemyOptions extends BaseOptions {
     angleSpeed?: number;
 }
 
-export interface EnemyParams extends Omit<EnemyOptions, 'imgPath'> {
+export interface BaseParams extends Omit<EnemyOptions, 'imgPath'> {
     image: HTMLImageElement;
 }
 

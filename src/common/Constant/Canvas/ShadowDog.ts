@@ -1,8 +1,8 @@
-import {Enemy} from './Enemy';
 import shadowDogPic from '@/assets/img/shadow_dog.png';
 import {BaseOptions, ShadowActionType} from '@/common/Interface';
+import {BaseEle} from './BaseEle';
 
-export class ShadowDogClass extends Enemy {
+export class ShadowDogClass extends BaseEle {
     yPosForSprite: number;
     constructor(
         canvas: HTMLCanvasElement,
