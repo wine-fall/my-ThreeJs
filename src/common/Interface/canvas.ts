@@ -59,3 +59,8 @@ export interface RavenParams extends Omit<RavenOptions, 'imgPath'> {
 export type CreateParticleFn = (ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, color: string) => void
 
 export type ShootGameAnimationFn = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, ctxWrapper: CanvasRenderingContext2D) => void;
+
+export interface ShadowOptios extends BaseOptions {
+    x?: number;
+    y?: number;
+}

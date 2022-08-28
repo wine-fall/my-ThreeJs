@@ -1,18 +1,41 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {CommonWrapper} from '@/components';
 import {setCanvasSize} from '@/utils';
+import {ShadowDogClass, shadowDogOptions} from '@/common/Constant';
 
 const SideScrollerGame: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    const handleCanvasKeyDown: EventListenerOrEventListenerObject = (e) => {
+    const handleCanvasKeyDown = (shadowDog: ShadowDogClass) => function (this: Window, e: KeyboardEvent) {
         /**
          * since the canvas element can not be focused,
          * you can not bound the keydown listener on canvas.
          * though you can set the "tabindex" property of canvas to {-1}
-         * to make it can be focused whichi is not proper for me.
+         * to make it can be focused which is not proper for me.
          */
+        const code = e.code;
+        switch (code) {
+            case 'KeyA':
+                break; 
+            case 'KeyS':
+                break; 
+            case 'KeyD':
+                break; 
+            case 'KeyW':
+                shadowDog.changeType('updateJump');
+                shadowDog.jumping = true;
+                break;        
+            default:
+                break;
+        }
         console.log(e);
+    };
+
+    const animation = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, shadowDog: ShadowDogClass) => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        shadowDog.update();
+        shadowDog.draw();
+        requestAnimationFrame(() => animation(canvas, ctx, shadowDog));
     };
 
     useEffect(() => {
@@ -25,12 +48,18 @@ const SideScrollerGame: React.FC = () => {
             return;
         }
         setCanvasSize(canvasRef, 600, 600);
-        window.addEventListener('keydown', handleCanvasKeyDown);
-    });
+        const shadowDog = new ShadowDogClass(canvas, ctx, {
+            ...shadowDogOptions,
+            y: canvas.height * (3 / 4),
+            ratio: 0.2
+        });
+        window.addEventListener<'keyup'>('keyup', handleCanvasKeyDown(shadowDog));
+        animation(canvas, ctx, shadowDog);
+    }, []);
 
     return (
         <CommonWrapper>
-            <canvas ref={canvasRef} tabIndex={0}></canvas>
+            <canvas ref={canvasRef}></canvas>
         </CommonWrapper>
     );
 };

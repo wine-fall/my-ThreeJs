@@ -1,18 +1,22 @@
 import shadowDogPic from '@/assets/img/shadow_dog.png';
-import {BaseOptions, ShadowActionType} from '@/common/Interface';
+import {ShadowOptios, ShadowActionType} from '@/common/Interface';
 import {BaseEle} from './BaseEle';
 
 export class ShadowDogClass extends BaseEle {
     yPosForSprite: number;
+    yDirection: number;
+    jumping: boolean;
     constructor(
         canvas: HTMLCanvasElement,
         ctx: CanvasRenderingContext2D,
-        options: BaseOptions
+        options: ShadowOptios
     ) {
         super(canvas, ctx, options);
-        this.x = 0;
-        this.y = 0;
-        this.yPosForSprite = 0;
+        this.x = options.x || 0;
+        this.y = options.y || 0;
+        this.yPosForSprite = yPosForShadwDogSprite['updateRun'];
+        this.yDirection = -10 * Math.sin(90);
+        this.jumping = false;
     }
 
     changeType(actionType: ShadowActionType) {
@@ -21,6 +25,26 @@ export class ShadowDogClass extends BaseEle {
             ...this.options,
             frames: framesForActionType[actionType]
         };
+    }
+
+    jump() {
+        this.y = this.y + this.yDirection;
+        if (this.y < (1 / 4) * this.canvas.height) {
+            this.yDirection = -this.yDirection;
+        }
+        if (this.y > (3 / 4) * this.canvas.height) {
+            this.yDirection = -this.yDirection;
+            this.y = (3 / 4) * this.canvas.height;
+            this.changeType('updateRun');
+            this.jumping = false;
+        }
+    }
+
+    update() {
+        super.update();
+        if (this.jumping) {
+            this.jump();
+        }
     }
 
     draw() {
@@ -46,7 +70,7 @@ export const ActionTypeOpts: ShadowActionType[] = [
     'updateGetHit'
 ];
 
-export const shadowDogOptions: BaseOptions = {
+export const shadowDogOptions: ShadowOptios = {
     spriteWidth: 575,
     spriteHeight: 523,
     imgPath: shadowDogPic,
