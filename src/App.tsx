@@ -1,24 +1,49 @@
-import React, {Suspense} from 'react';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
-import {routerConfig, CustomizeRouteProps} from './router';
+import React, {Suspense, lazy} from 'react';
+import {BrowserRouter, Navigate, Outlet, Route, Routes, useNavigate} from 'react-router-dom';
+import {routerConfig, CustomizeRouteProps, HomeRoute} from './router';
+import styles from './App.module.less';
+
+const Dashboard: React.FC = () => {
+    const navigate = useNavigate();
+    return (
+        <div className={styles.Dashboard}>
+            <div className={styles.backBtn} onClick={() => {
+                navigate(-1);
+            }}>go back</div>
+            <Outlet />
+        </div>
+    );
+};
 
 function App() {
     return (
         <Suspense fallback={null}>
             <BrowserRouter>
-                <Switch>
-                    <Redirect exact={true} from="/"
-                        to='/home' />
-                    {
-                        routerConfig.map(
-                            (item: CustomizeRouteProps) => {
-                                return (
-                                    <Route {...item} key={item.key}></Route>
-                                );
-                            }
-                        )
-                    }
-                </Switch>
+                <Routes>
+                    <Route
+                        path='/'
+                        element={<Navigate to="/home" replace/>}
+                    />
+                    <Route
+                        {...HomeRoute}
+                        element={React.createElement(HomeRoute.component)}
+                    />
+                    <Route path="/" element={<Dashboard />}>
+                        {
+                            routerConfig.map(
+                                (router: CustomizeRouteProps) => {
+                                    return (
+                                        <Route
+                                            {...router}
+                                            element={React.createElement(router.component)}
+                                            key={router.key}
+                                        ></Route>
+                                    );
+                                }
+                            )
+                        }
+                    </Route>
+                </Routes>
             </BrowserRouter>
         </Suspense>
     );

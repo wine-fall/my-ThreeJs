@@ -1,7 +1,7 @@
 import {lazy} from 'react';
 import {RouteProps} from 'react-router';
 
-export interface CustomizeRouteProps extends RouteProps {
+export type CustomizeRouteProps = RouteProps & {
     key: string;
     path: string;
     component: React.FC;
@@ -9,11 +9,6 @@ export interface CustomizeRouteProps extends RouteProps {
 }
 
 export const routerConfig: CustomizeRouteProps[] = [
-    {
-        key: 'home',
-        path: '/home',
-        component: lazy(() => import('../views/Home'))
-    },
     {
         key: 'three',
         path: '/three',
@@ -95,3 +90,9 @@ export const routerConfig: CustomizeRouteProps[] = [
         component: lazy(() => import('../views/Canvas/SideScrollerGame'))
     }
 ];
+
+export const HomeRoute: CustomizeRouteProps = {
+    key: 'home',
+    path: '/home',
+    component: lazy(() => import('../views/Home'))
+};

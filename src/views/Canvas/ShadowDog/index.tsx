@@ -7,11 +7,12 @@ import {ShadowActionType} from '@/common/Interface';
 const ShadowDog: React.FC = () => {
     const [shadowDog, setShadowDog] = useState<ShadowDogClass | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const animationRef = useRef<{id: number | null}>({id: null});
     const animation = (ctx: CanvasRenderingContext2D, shadowDog: ShadowDogClass) => {
         ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
         shadowDog.update();
         shadowDog.draw();
-        requestAnimationFrame(() => animation(ctx, shadowDog));
+        animationRef.current.id = requestAnimationFrame(() => animation(ctx, shadowDog));
     };
 
     const handleSelcetChange = (shadowDog: ShadowDogClass): ChangeEventHandler<HTMLSelectElement> => (e) => {
@@ -32,6 +33,11 @@ const ShadowDog: React.FC = () => {
         const shadowDog = new ShadowDogClass(canvas, ctx, shadowDogOptions);
         setShadowDog(shadowDog);
         animation(ctx, shadowDog);
+        return () => {
+            if (typeof animationRef.current.id === 'number') {
+                cancelAnimationFrame(animationRef.current.id);
+            }
+        };
     }, []);
 
     return (
