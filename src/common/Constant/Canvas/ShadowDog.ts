@@ -14,7 +14,7 @@ export class ShadowDogClass extends BaseEle {
         super(canvas, ctx, options);
         this.x = options.x || 0;
         this.y = options.y || 0;
-        this.yPosForSprite = yPosForShadwDogSprite['updateRun'];
+        this.yPosForSprite = yPosForShadwDogSprite['updateNormal'];
         this.yDirection = -10 * Math.sin(90);
         this.jumping = false;
     }
@@ -27,24 +27,8 @@ export class ShadowDogClass extends BaseEle {
         };
     }
 
-    jump() {
-        this.y = this.y + this.yDirection;
-        if (this.y < (1 / 4) * this.canvas.height) {
-            this.yDirection = -this.yDirection;
-        }
-        if (this.y > (3 / 4) * this.canvas.height) {
-            this.yDirection = -this.yDirection;
-            this.y = (3 / 4) * this.canvas.height;
-            this.changeType('updateRun');
-            this.jumping = false;
-        }
-    }
-
     update() {
         super.update();
-        if (this.jumping) {
-            this.jump();
-        }
     }
 
     draw() {

@@ -26,6 +26,10 @@ export class BaseEle {
         this.y = 0;
     }
 
+    get getOptions() {
+        return this.options;
+    }
+
     update() {
         const {frames, separator} = this.options;
         if (this.updateCnt % separator === 0) {
