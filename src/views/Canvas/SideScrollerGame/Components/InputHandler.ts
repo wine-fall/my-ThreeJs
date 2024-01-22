@@ -7,39 +7,75 @@ export class InputHandler {
         window.addEventListener<'keydown'>('keydown', this.handleCanvasKeyDown(player));
     }
 
-    handleCanvasKeyUp = (player: Player) => function (this: Window, e: KeyboardEvent) {
+    handleRun(palyer: Player, stateNumber: number) {
+        palyer.state = palyer.stateMap.get(stateNumber)!;
+    }
+
+    handleJump(palyer: Player) {
+        const pos = palyer.state.pos;
+        if (pos === StatementMap.running_left || pos === StatementMap.standing_left) {
+            palyer.state = palyer.stateMap.get(StatementMap.jumping_left)!;
+        } else if (pos === StatementMap.running_right || pos === StatementMap.standing_right) {
+            palyer.state = palyer.stateMap.get(StatementMap.jumping_right)!;
+        }
+    }
+
+    handleStand(palyer: Player) {
+        const pos = palyer.state.pos;
+        if (pos === StatementMap.running_left) {
+            palyer.state = palyer.stateMap.get(StatementMap.standing_left)!;
+        } else if (pos === StatementMap.running_right) {
+            palyer.state = palyer.stateMap.get(StatementMap.standing_right)!;
+        }
+    }
+
+    handleFall(palyer: Player) {
+        const pos = palyer.state.pos;
+        if (pos === StatementMap.jumping_left) {
+            palyer.state = palyer.stateMap.get(StatementMap.falling_left)!;
+        } else if (pos === StatementMap.jumping_right) {
+            palyer.state = palyer.stateMap.get(StatementMap.falling_right)!;
+        }
+    }
+
+    handleCanvasKeyDown = (player: Player) => (e: KeyboardEvent) => {
         const code = e.code;
         switch (code) {
             case 'KeyA':
-                player.changeState(StatementMap.standing_left);
+                this.handleRun(player, StatementMap.running_left);
                 break; 
             case 'KeyS':
                 break; 
             case 'KeyD':
-                player.changeState(StatementMap.standing_right);
+                this.handleRun(player, StatementMap.running_right);
                 break; 
             case 'KeyW':
+                this.handleJump(player);
                 break;        
             default:
                 break;
         }
+        player.state.change();
     };
 
-    handleCanvasKeyDown = (player: Player) => function (this: Window, e: KeyboardEvent) {
+    handleCanvasKeyUp = (player: Player) => (e: KeyboardEvent) => {
         const code = e.code;
         switch (code) {
             case 'KeyA':
-                player.changeState(StatementMap.running_left);
+                this.handleStand(player);
                 break; 
             case 'KeyS':
                 break; 
             case 'KeyD':
-                player.changeState(StatementMap.running_right);
+                this.handleStand(player);
                 break; 
             case 'KeyW':
+                this.handleFall(player);
                 break;        
             default:
                 break;
         }
+        player.state.change();
     };
+
 }

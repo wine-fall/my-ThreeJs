@@ -3,6 +3,10 @@ import {Player} from './Player';
 export const StatementMap = {
     standing_right: 0,
     standing_left: 1,
+    jumping_right: 2,
+    jumping_left: 3,
+    falling_right: 4,
+    falling_left: 5,
     running_right: 6,
     running_left: 7
 };
@@ -10,12 +14,12 @@ export const StatementMap = {
 const RUNNING_SPEED = 30;
 
 export class Statement {
+    public pos: number;
     constructor(
-        public yPos: number,
-        public player: Player
+        public player: Player,
     ) {
-        this.yPos = yPos;
         this.player = player;
+        this.pos = 0;
     }
 
     change() {
@@ -24,9 +28,8 @@ export class Statement {
 }
 
 export class StatementStandRight extends Statement {
-    private pos: number;
     constructor(player: Player) {
-        super(StatementMap.standing_right, player);
+        super(player);
         this.pos = StatementMap.standing_right;
     }
     change() {
@@ -35,9 +38,8 @@ export class StatementStandRight extends Statement {
 }
 
 export class StatementStandLeft extends Statement {
-    private pos: number;
     constructor(player: Player) {
-        super(StatementMap.standing_left, player);
+        super(player);
         this.pos = StatementMap.standing_left;
     }
     change() {
@@ -46,9 +48,8 @@ export class StatementStandLeft extends Statement {
 }
 
 export class StatementRunRight extends Statement {
-    private pos: number;
     constructor(player: Player) {
-        super(StatementMap.running_right, player);
+        super(player);
         this.pos = StatementMap.running_right;
     }
     change() {
@@ -57,9 +58,8 @@ export class StatementRunRight extends Statement {
 }
 
 export class StatementRunLeft extends Statement {
-    private pos: number;
     constructor(player: Player) {
-        super(StatementMap.running_left, player);
+        super(player);
         this.pos = StatementMap.running_left;
     }
     change() {
@@ -67,3 +67,30 @@ export class StatementRunLeft extends Statement {
     }
 }
 
+export class StatementJumpRight extends Statement {
+    constructor(player: Player) {
+        super(player);
+        this.pos = StatementMap.jumping_right;
+    }
+}
+
+export class StatementJumpLeft extends Statement {
+    constructor(player: Player) {
+        super(player);
+        this.pos = StatementMap.jumping_left;
+    }
+}
+
+export class StatementFallRight extends Statement {
+    constructor(player: Player) {
+        super(player);
+        this.pos = StatementMap.falling_right;
+    }
+}
+
+export class StatementFallLeft extends Statement {
+    constructor(player: Player) {
+        super(player);
+        this.pos = StatementMap.falling_left;
+    }
+}

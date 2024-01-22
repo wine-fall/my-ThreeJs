@@ -1,6 +1,6 @@
 import {BaseEle} from '@/common/Constant/Canvas/BaseEle';
 import white_dog from 'src/assets/img/white_dog.png';
-import {Statement, StatementMap, StatementRunLeft, StatementRunRight, StatementStandLeft, StatementStandRight} from './Statement';
+import {Statement, StatementFallLeft, StatementFallRight, StatementJumpLeft, StatementJumpRight, StatementMap, StatementRunLeft, StatementRunRight, StatementStandLeft, StatementStandRight} from './Statement';
 
 const PlayerOptions = {
     spriteWidth: 200,
@@ -14,8 +14,8 @@ const PlayerOptions = {
 
 export class Player extends BaseEle {
 
-    private stateMap: Map<number, Statement>;
-    private state: Statement;
+    public stateMap: Map<number, Statement>;
+    public state: Statement;
 
     public speedX = 0;
 
@@ -30,14 +30,13 @@ export class Player extends BaseEle {
             [StatementMap.standing_right, new StatementStandRight(this) as Statement],
             [StatementMap.running_right, new StatementRunRight(this) as Statement],
             [StatementMap.running_left, new StatementRunLeft(this) as Statement],
+            [StatementMap.jumping_right, new StatementJumpRight(this) as Statement],
+            [StatementMap.jumping_left, new StatementJumpLeft(this) as Statement],
+            [StatementMap.falling_right, new StatementFallRight(this) as Statement],
+            [StatementMap.falling_left, new StatementFallLeft(this) as Statement],
         ]);
         this.state = this.stateMap.get(StatementMap.standing_right)!;
-    }
-
-    changeState(stateNumber: number) {
-        this.state = this.stateMap.get(stateNumber)!;
-        this.state.change();
-    }
+    }    
 
     update() {
         const {frames, separator} = this.options;
@@ -70,7 +69,7 @@ export class Player extends BaseEle {
     draw(): void {
         const {image, spriteWidth, spriteHeight, ratio} = this.options;
         this.ctx.drawImage(image,
-            this.frameX * spriteWidth, this.state.yPos * spriteHeight, spriteWidth, spriteHeight,
+            this.frameX * spriteWidth, this.state.pos * spriteHeight, spriteWidth, spriteHeight,
             this.x, this.y, spriteWidth * ratio, spriteHeight * ratio
         );
     }
