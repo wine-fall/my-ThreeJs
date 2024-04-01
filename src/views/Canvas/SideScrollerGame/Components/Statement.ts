@@ -94,3 +94,6 @@ export class StatementFallLeft extends Statement {
         this.pos = StatementMap.falling_left;
     }
 }
+
+export type StatemCollect = StatementStandRight | StatementStandLeft | StatementRunRight
+    | StatementRunLeft | StatementJumpRight | StatementJumpLeft | StatementFallRight | StatementFallLeft;
