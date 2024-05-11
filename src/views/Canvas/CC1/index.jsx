@@ -65,6 +65,12 @@ export default function App() {
     );
     const [enter, setEnter] = useState(true);
 
+    const handleReset = () => {
+        setCharPos(0);
+        setEnter(true);
+        setCharsPanel(createInitPanel(rowNumber, colNumber));
+    };
+
     const updateParams = (row, col, char, charDiff) => {
         if (row === -1 || col === -1) {
             return;
@@ -128,6 +134,18 @@ export default function App() {
         setCharsPanel([...charsPanel]);
         setEnter(true);
     };
+
+    useEffect(() => {
+        const {row} = getRowColByPos(charPos - 1, colNumber);
+        if (!enter || row < 0) {
+            return;
+        }
+        const checkRow = charsPanel[row];
+        if (checkRow.map(([v]) => v).join('') === answer) {
+            alert('You are right!');
+            handleReset();
+        }
+    }, [enter]);
 
     const handleDelete = () => {
         const isAtNewRow = checkNewBeginRow(charPos, colNumber);
