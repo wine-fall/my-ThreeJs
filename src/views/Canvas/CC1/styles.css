@@ -21,4 +21,19 @@
 .App .worldeBoard .wordleRow .wordleCell {
     border: 2px solid #d3d6da;
 }
+
+.App .worldeBoard .wordleRow .wordleCell.correctChar {
+    background-color: #b59f3b;
+    border: none;
+}
+
+.App .worldeBoard .wordleRow .wordleCell.correctCharAndPos {
+    background-color: #538d4e;
+    border: none;
+}
+
+.App .worldeBoard .wordleRow .wordleCell.error {
+    background-color: #787c7e;
+    border: none;
+}
   

@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import {
     WordList,
     createInitPanel,
     getRowColByPos,
     checkNewBeginRow,
+    CharStatus,
 } from './constant';
 import './styles.css';
 
@@ -25,13 +26,26 @@ const useEventListner = (target, type, cb) => {
     }, []);
 };
 
-const WordleCell = ({idx, val}) => {
+const WordleCell = ({idx, val, status}) => {
+
+    const className = useMemo(() => {
+        if (status === CharStatus.unreach) {
+            return 'wordleCell';
+        } else if (status === CharStatus.correctChar) {
+            return 'wordleCell correctChar';
+        } else if (status === CharStatus.correctCharAndPos) {
+            return 'wordleCell correctCharAndPos';
+        } else {
+            return 'wordleCell error';
+        }
+    }, [status]);
+
     return (
         <div
             style={{
                 animationDelay: `${idx * 100}ms`,
             }}
-            className={'wordleCell'}
+            className={className}
         >
             {val}
         </div>
@@ -55,7 +69,7 @@ export default function App() {
         if (row === -1 || col === -1) {
             return;
         }
-        charsPanel[row][col] = char;
+        charsPanel[row][col][0] = char;
         const nxtCharPos = Math.min(
             Math.max(charPos + charDiff, 0),
             rowNumber * colNumber
@@ -88,9 +102,30 @@ export default function App() {
             return;
         }
         const {row} = getRowColByPos(charPos - 1, colNumber);
+        const checkRow = charsPanel[row];
+        const map = new Map();
+        for (let i = 0; i < answer.length; i++) {
+            map.set(answer[i], (map.get(answer[i]) || 0) + 1);
+        }
+        for (let i = 0; i < colNumber; i++) {
+            const char = checkRow[i][0];
+            if (char === answer[i]) {
+                checkRow[i][1] = CharStatus.correctCharAndPos;
+                map.set(char, map.get(char) - 1);
+            } else if (map.has(char)) {
+                checkRow[i][1] = CharStatus.correctChar;
+                map.set(char, map.get(char) - 1);
+            } else {
+                checkRow[i][1] = CharStatus.error;
+            }
+            if (map.has(char) && map.get(char) === 0) {
+                map.delete(char);
+            }
+        }
         // todo: chech if is a valid word
-        console.log('The input is', charsPanel[row].join(''));
+        console.log('The input is', checkRow.map(([v]) => v).join(''));
         checkedSetRef.current.add(row);
+        setCharsPanel([...charsPanel]);
         setEnter(true);
     };
 
@@ -125,25 +160,26 @@ export default function App() {
     useEventListner(window, 'keydown', handleKeyDown);
 
     useEffect(() => {
-    // todo get randam answer
+        // todo get randam answer
         setAnswer(WordList[0]);
     }, []);
 
     const createCells = (row) => {
-        return Array(colNumber)
-            .fill(0)
-            .map((_, idx) => {
-                const val = charsPanel[row][idx];
+        return charsPanel[row]
+            .map(([val, status], idx) => {
                 return (
-                    <WordleCell key={idx} idx={idx}
-                        val={val} />
+                    <WordleCell
+                        key={idx}
+                        idx={idx}
+                        val={val}
+                        status={status}
+                    />
                 );
             });
     };
 
     const createRows = () => {
-        return Array(rowNumber)
-            .fill(0)
+        return charsPanel
             .map((_, idx) => {
                 return (
                     <div key={idx} className={'wordleRow'}>
