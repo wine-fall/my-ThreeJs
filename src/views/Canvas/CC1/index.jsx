@@ -71,10 +71,10 @@ export default function App() {
 
     const handleInput = (e) => {
         if (
-        // we reach the last one
+            // we reach the last one
             charPos > rowNumber * colNumber
-      // we finish one row but not click enter
-      || (checkNewBeginRow(charPos, colNumber) && !enter)
+            // we finish one row but not click enter
+            || (checkNewBeginRow(charPos, colNumber) && !enter)
         ) {
             return;
         }
@@ -96,19 +96,14 @@ export default function App() {
 
     const handleDelete = () => {
         const isAtNewRow = checkNewBeginRow(charPos, colNumber);
-        const {row, col} = getRowColByPos(charPos, colNumber);
-        if (isAtNewRow && charsPanel[row][col] === '') {
+        const {row, col} = getRowColByPos(charPos - 1, colNumber);
+        if (isAtNewRow) {
             // we need to check the last row
-            const {row: lastRow, col: lastCol} = getRowColByPos(
-                charPos - 1,
-                colNumber
-            );
-            if (checkedSetRef.current.has(lastRow)) {
+            if (checkedSetRef.current.has(row)) {
                 // we at a new row and the last row has been checked
-                // or we haven't typed anything
                 return;
             } else {
-                updateParams(lastRow, lastCol, '', -1);
+                updateParams(row, col, '', -1);
             }
         } else {
             updateParams(row, col, '', -1);
