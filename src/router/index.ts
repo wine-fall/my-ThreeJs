@@ -93,7 +93,12 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'ali-1',
         path: '/ali-1',
         component: lazy(() => import('../views/Ali/T1'))
-    }
+    },
+    {
+        key: 'cc-1',
+        path: '/cc/1',
+        component: lazy(() => import('../views/Canvas/CC1'))
+    },
 ];
 
 export const HomeRoute: CustomizeRouteProps = {
