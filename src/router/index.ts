@@ -99,6 +99,11 @@ export const routerConfig: CustomizeRouteProps[] = [
         path: '/cc/1',
         component: lazy(() => import('../views/Canvas/CC1'))
     },
+    {
+        key: 'cc-2',
+        path: '/cc/2',
+        component: lazy(() => import('../views/Canvas/CC2'))
+    },
 ];
 
 export const HomeRoute: CustomizeRouteProps = {
