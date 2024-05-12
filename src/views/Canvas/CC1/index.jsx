@@ -27,7 +27,7 @@ const useEventListner = (target, type, cb) => {
     }, []);
 };
 
-const WordleCell = ({idx, val, status}) => {
+const WordleCell = ({idx, val, status, onTransitionEnd}) => {
 
     const className = useMemo(() => {
         if (status === CharStatus.unreach) {
@@ -47,6 +47,9 @@ const WordleCell = ({idx, val, status}) => {
                 transitionDuration: `${(idx + 1) * 400}ms`,
             }}
             className={className}
+            onTransitionEnd={() => {
+                onTransitionEnd(idx);
+            }}
         >
             {val}
         </div>
@@ -174,9 +177,9 @@ export default function App() {
         setEnter(true);
     };
 
-    useEffect(() => {
+    const handleTransitionEnd = (idx) => {
         const {row} = getRowColByPos(charPos - 1, colNumber);
-        if (!enter || row < 0) {
+        if (!enter || idx !== answer.length - 1 || row < 0) {
             return;
         }
         const checkRow = charsPanel[row];
@@ -184,7 +187,7 @@ export default function App() {
             alert('You are right!');
             handleReset();
         }
-    }, [enter]);
+    };
 
     const handleDelete = () => {
         const isAtNewRow = checkNewBeginRow(charPos, colNumber);
@@ -230,6 +233,7 @@ export default function App() {
                         idx={idx}
                         val={val}
                         status={status}
+                        onTransitionEnd={handleTransitionEnd}
                     />
                 );
             });
