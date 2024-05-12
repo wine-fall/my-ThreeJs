@@ -44,7 +44,7 @@ const WordleCell = ({idx, val, status}) => {
     return (
         <div
             style={{
-                animationDelay: `${idx * 100}ms`,
+                transitionDuration: `${(idx + 1) * 400}ms`,
             }}
             className={className}
         >
