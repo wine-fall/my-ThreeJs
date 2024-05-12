@@ -36,4 +36,38 @@
     background-color: #787c7e;
     border: none;
 }
+
+.App .keyBoard {
+    height: 198px;
+    width: 484px;
+}
+.App .keyBoard .keyBoardRow {
+    display: flex;
+    width: 100%;
+    margin: 0 auto 8px;
+}
+.App .keyBoard .keyBoardRow > div:not(:last-child) {
+    margin-right: 6px;
+}
+.App .keyBoard .keyBoardRow > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.App .keyBoard .keyBoardRow .keyBoardCell {
+    height: 58px;
+    background-color: #d3d6da;
+    flex: 1;
+}
+
+.App .keyBoard .keyBoardRow .cellSpace {
+    height: 58px;
+    flex: .5;
+}
+
+.App .keyBoard .keyBoardRow .cellOpt {
+    height: 58px;
+    background-color: #d3d6da;
+    flex: 1.5;
+}
   

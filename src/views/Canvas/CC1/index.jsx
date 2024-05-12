@@ -5,6 +5,7 @@ import {
     getRowColByPos,
     checkNewBeginRow,
     CharStatus,
+    keyBoards,
 } from './constant';
 import './styles.css';
 
@@ -52,6 +53,44 @@ const WordleCell = ({idx, val, status}) => {
     );
 };
 
+const KeyBoardRow = ({row, idx, onCharInput, onCharEnter, onCharDelete}) => {
+
+    const handleCharClick = (key, cb) => {
+        return () => cb({key});
+    };
+
+    const createKeyBoardCells = () => {
+        const charCells = row.map((char) => (
+            <div key={char} className={'keyBoardCell'}
+                onClick={handleCharClick(char.toLowerCase(), onCharInput)}>{char}</div>
+        ));
+        if (idx === 0) {
+            return charCells;
+        } else if (idx === 1) {
+            return (
+                <>
+                    <div className='cellSpace'></div>
+                    {charCells}
+                    <div className='cellSpace'></div>
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <div className='cellOpt' onClick={handleCharClick('Enter', onCharEnter)}>Enter</div>
+                    {charCells}
+                    <div className='cellOpt' onClick={handleCharClick('BackSpace', onCharDelete)}>BackSpace</div>
+                </>
+            );
+        }
+    };
+    return (
+        <div className={'keyBoardRow'}>
+            {createKeyBoardCells()}
+        </div>
+    );
+};
+
 export default function App() {
     const [rowNumber, setRowNumber] = useState(6); // todo: rowNumber maybe dynamic
     const [colNumber, setColNumber] = useState(5); // todo: colNumber maybe dynamic
@@ -79,7 +118,7 @@ export default function App() {
         const nxtCharPos = Math.min(
             Math.max(charPos + charDiff, 0),
             rowNumber * colNumber
-        ); // a valid should in range [0, rowNumber * colNumber]
+        ); // a valid pos should in range [0, rowNumber * colNumber]
         setCharPos(nxtCharPos);
         setCharsPanel([...charsPanel]);
         if (checkNewBeginRow(nxtCharPos, colNumber) && char === '') {
@@ -212,6 +251,18 @@ export default function App() {
             <h1>React Wordle</h1>
             <h4>by guozhiyi</h4>
             <div className={'worldeBoard'}>{createRows()}</div>
+            <div className={'keyBoard'}>
+                {keyBoards.map((row, idx) => (
+                    <KeyBoardRow
+                        key={idx}
+                        idx={idx}
+                        row={row}
+                        onCharInput={handleInput}
+                        onCharEnter={handleCheck}
+                        onCharDelete={handleDelete}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
