@@ -88,6 +88,11 @@ export const routerConfig: CustomizeRouteProps[] = [
         key: 'sideScrollerGame',
         path: '/canvas/sideScrollerGame',
         component: lazy(() => import('../views/Canvas/SideScrollerGame'))
+    },
+    {
+        key: 'ali-1',
+        path: '/ali-1',
+        component: lazy(() => import('../views/Ali/T1'))
     }
 ];
 
