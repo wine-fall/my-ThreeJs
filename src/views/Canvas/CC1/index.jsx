@@ -56,17 +56,30 @@ const WordleCell = ({idx, val, status, onTransitionEnd}) => {
     );
 };
 
-const KeyBoardRow = ({row, idx, onCharInput, onCharEnter, onCharDelete}) => {
+const KeyBoardRow = ({row, idx, onCharInput, onCharEnter, onCharDelete, sets}) => {
+
+    const [correctCharSet, correctCharAndPosSet, errorSet] = sets;
 
     const handleCharClick = (key, cb) => {
         return () => cb({key});
     };
 
     const createKeyBoardCells = () => {
-        const charCells = row.map((char) => (
-            <div key={char} className={'keyBoardCell'}
-                onClick={handleCharClick(char.toLowerCase(), onCharInput)}>{char}</div>
-        ));
+        const charCells = row.map((char) => {
+            const lowerChar = char.toLowerCase();
+            let charClassName = 'keyBoardCell';
+            if (correctCharSet.current.has(lowerChar)) {
+                charClassName += ' correctChar';
+            } else if (correctCharAndPosSet.current.has(lowerChar)) {
+                charClassName += ' correctCharAndPos';
+            } else if (errorSet.current.has(lowerChar)) {
+                charClassName += ' error';
+            }
+            return (
+                <div key={char} className={charClassName}
+                    onClick={handleCharClick(lowerChar, onCharInput)}>{char}</div>
+            );
+        });
         if (idx === 0) {
             return charCells;
         } else if (idx === 1) {
@@ -100,6 +113,10 @@ export default function App() {
     const [answer, setAnswer] = useState(WordList[0]);
 
     const checkedSetRef = useRef(new Set());
+
+    const correctCharSet = useRef(new Set());
+    const correctCharAndPosSet = useRef(new Set());
+    const errorSet = useRef(new Set());
 
     const [charPos, setCharPos] = useState(0);
     const [charsPanel, setCharsPanel] = useState(
@@ -160,11 +177,14 @@ export default function App() {
             if (char === answer[i]) {
                 checkRow[i][1] = CharStatus.correctCharAndPos;
                 map.set(char, map.get(char) - 1);
+                correctCharAndPosSet.current.add(char);
             } else if (map.has(char)) {
                 checkRow[i][1] = CharStatus.correctChar;
                 map.set(char, map.get(char) - 1);
+                correctCharSet.current.add(char);
             } else {
                 checkRow[i][1] = CharStatus.error;
+                errorSet.current.add(char);
             }
             if (map.has(char) && map.get(char) === 0) {
                 map.delete(char);
@@ -185,6 +205,9 @@ export default function App() {
         const checkRow = charsPanel[row];
         if (checkRow.map(([v]) => v).join('') === answer) {
             alert('You are right!');
+            handleReset();
+        } else if (row === rowNumber - 1) {
+            alert('You are wrong!');
             handleReset();
         }
     };
@@ -264,6 +287,7 @@ export default function App() {
                         onCharInput={handleInput}
                         onCharEnter={handleCheck}
                         onCharDelete={handleDelete}
+                        sets={[correctCharSet, correctCharAndPosSet, errorSet]}
                     />
                 ))}
             </div>

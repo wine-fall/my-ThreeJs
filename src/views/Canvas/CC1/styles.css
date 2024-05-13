@@ -67,6 +67,16 @@
     flex: 1;
 }
 
+.App .keyBoard .keyBoardRow .keyBoardCell.correctChar {
+    background-color: #b59f3b;
+}
+.App .keyBoard .keyBoardRow .keyBoardCell.correctCharAndPos {
+    background-color: #538d4e;
+}
+.App .keyBoard .keyBoardRow .keyBoardCell.error {
+    background-color: #787c7e;
+}
+
 .App .keyBoard .keyBoardRow .cellSpace {
     height: 58px;
     flex: .5;
