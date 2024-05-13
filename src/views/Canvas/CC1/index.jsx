@@ -128,6 +128,9 @@ export default function App() {
         setCharPos(0);
         setEnter(true);
         setCharsPanel(createInitPanel(rowNumber, colNumber));
+        correctCharSet.current.clear();
+        correctCharAndPosSet.current.clear();
+        errorSet.current.clear();
     };
 
     const updateParams = (row, col, char, charDiff) => {
